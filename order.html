@@ -229,7 +229,7 @@ footer{text-align:center;padding:28px 20px;font-size:13px;color:var(--ink-3);lin
 <div class="sum" role="status" aria-live="polite"><div class="in"><div><small id="sumN">선택한 상품 없음</small><b class="num" id="sumT">0원</b></div><a href="#orderForm" id="sumGo">주문서 작성</a></div></div>
 
 <script>
-const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyxj0ET_Ac90LMgRFzTK_HLWEEQrfKsIKC-oav23FtR3djW0FmpJJhsNOzvyGszCyF6/exec";
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyTFd_vzXdJ_eRkgFdDVLIf1FYY82AczieMWRVYBEGgHP24M8KbjTMVpDSSbyA4hxA4Aw/exec";
 const GOLD_API_URL="https://script.google.com/macros/s/AKfycbyTFd_vzXdJ_eRkgFdDVLIf1FYY82AczieMWRVYBEGgHP24M8KbjTMVpDSSbyA4hxA4Aw/exec";
 const LS_KEY="swgold_latest_v1";
 /* 마지막 갱신일(2026-10-28) 현금가 · VAT 포함. API 실패 시 사용 */
@@ -327,7 +327,7 @@ form.addEventListener("submit",e=>{
   const orderTime=n.getFullYear()+"-"+p2(n.getMonth()+1)+"-"+p2(n.getDate())+" "+p2(n.getHours())+":"+p2(n.getMinutes())+":"+p2(n.getSeconds());
   const total=sel.reduce((s,x)=>s+x.qty*x.unitPrice,0);
   submitBtn.disabled=true;submitBtn.textContent="접수 처리 중...";
-  fetch(GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},
+  fetch(GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},
     body:JSON.stringify({orderTime,purchaseType:pt.value,customerName:name,customerPhone:phone,products:sel,deliveryMethod:dm.value,address:addr,priceBaseDate:baseDate,totalPrice:total})})
   .then(()=>{alert("주문이 성공적으로 접수되었습니다!");form.reset();postI.value="";quickI.value="";submitBtn.disabled=false;submitBtn.textContent="주문 접수"})
   .catch(err=>{alert("주문 접수 중 오류가 발생했습니다. 다시 시도해주세요.");console.error(err);submitBtn.disabled=false;submitBtn.textContent="주문 접수"});
