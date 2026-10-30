@@ -539,7 +539,7 @@ body.hasf footer{padding-bottom:92px}
 </div></section>
 
 <section class="s" id="lineup"><div class="wrap">
-  <div class="head"><p class="eyebrow">Lineup</p><div><h2>스위치원 골드 7종</h2><p class="sub">상품을 선택하면 금 값·제작 임가공비·포장 임가공비 구성과 재매입 조건을 확인할 수 있습니다. <span id="lnSub">같은 시세 기준(SWGOLD 174,600.67원/g) 가격입니다.</span></p><a class="order-btn" href="order.html" target="_blank" rel="noopener">골드 주문하기 <span class="ar2" aria-hidden="true">→</span></a></div></div>
+  <div class="head"><p class="eyebrow">Lineup</p><div><h2>스위치원 골드 7종</h2><p class="sub">상품을 선택하면 금 값·제작 임가공비·포장 임가공비 구성과 재매입 조건을 확인할 수 있습니다. <span id="lnSub">같은 시세 기준(SWGOLD 174,600.67원/g) 가격입니다.</span> <span id="lnNote">국내·국제 시세에 따라 급격한 변동성이 발생할 수 있습니다.</span></p><a class="order-btn" href="order.html" target="_blank" rel="noopener">골드 주문하기 <span class="ar2" aria-hidden="true">→</span></a></div></div>
   <div class="pgrid" id="pgrid" role="tablist" aria-label="상품 선택"></div>
   <div class="detail" id="detail" aria-live="polite"></div>
 
@@ -643,7 +643,7 @@ body.hasf footer{padding-bottom:92px}
     <details><summary>배송은 얼마나 걸리나요?</summary><div class="ans"><p>우체국 안심택배, 수도권 보안 퀵배송, 청담 제휴 라운지 직접 수령 중 선택할 수 있습니다.</p><p>배송비는 수령 방식에 따라 다르며 고객이 부담합니다. 퀵은 수령인이 결제합니다.</p></div></details>
     <details><summary>현금영수증이나 세금계산서를 받을 수 있나요?</summary><div class="ans"><p>현금영수증 또는 전자세금계산서 발행이 가능합니다. 주문하기에서 작성한 주문 정보로 발행됩니다. 별도의 요청이 있을 경우 담당자에게 별도 메일 또는 연락 주세요.</p><p>법인 구매는 사업자등록증을 b2b@switchwon.com으로 보내주세요.</p></div></details>
     <details><summary>되팔 때는 어떻게 되나요?</summary><div class="ans"><p>스위치원에서 구매한 실물이 대상이며, 동일 중량 SWGOLD를 1:1로 지급하고 우대 금액은 월렛에 입금합니다. SWGOLD는 필요 시 실시간 현금 인출이 가능합니다.</p><p>골드스푼 0.5g은 재매입 대상이 아니며, 골드바만 되팔 수 있습니다. 제품에 현저한 손실이 있으면 감정비가 추가될 수 있습니다.</p></div></details>
-    <details><summary>가격은 언제 기준인가요?</summary><div class="ans"><p>SWGOLD 실시간 시세를 적용하고, 부가세를 가산한 금액으로 상품별 가격이 정해집니다. 이 페이지의 금값 계산기는 특정 기준일(2026.10.22 13:47 KST)의 가격입니다. 오늘의 최신 시세는 주문하기에서 확인해 주세요.</p></div></details>
+    <details><summary>가격은 언제 기준인가요?</summary><div class="ans"><p>SWGOLD 실시간 시세를 적용하고, 부가세를 가산한 금액으로 상품별 가격이 정해집니다. 이 페이지의 금값 계산기는 특정 기준일(2026.10.22 13:47 KST)의 가격입니다. 오늘의 최신 시세는 주문하기에서 확인해 주세요.</p><p>주말·공휴일에는 직전 영업일 종가 기준 가격이 표시됩니다. 국내·국제 시세에 따라 급격한 변동성이 발생할 수 있습니다.</p></div></details>
     <details><summary>구매 취소 가능한가요?</summary><div class="ans"><p>금 현물 특성상 실시간 국제시세 및 국내 시세, 환율 등의 영향으로 가격 변동이 있는 상품입니다. 따라서 입금 후, 구매 취소 및 환불은 불가합니다.</p><p>구매시 신중히 결정해 주세요.</p></div></details>
   </div>
 </div></section>
@@ -737,13 +737,17 @@ body.hasf footer{padding-bottom:92px}
   var LS_KEY='swgold_latest_v1';
   function el(id){return document.getElementById(id)}
   function setT(id,t){var e=el(id);if(e)e.textContent=t}
+  var KR_HOL={"2026-01-01":1,"2026-02-16":1,"2026-02-17":1,"2026-02-18":1,"2026-03-01":1,"2026-03-02":1,"2026-05-01":1,"2026-05-05":1,"2026-05-24":1,"2026-05-25":1,"2026-06-03":1,"2026-06-06":1,"2026-07-17":1,"2026-08-15":1,"2026-08-17":1,"2026-09-24":1,"2026-09-25":1,"2026-09-26":1,"2026-10-03":1,"2026-10-05":1,"2026-10-09":1,"2026-12-25":1,
+"2027-01-01":1,"2027-02-06":1,"2027-02-07":1,"2027-02-08":1,"2027-02-09":1,"2027-03-01":1,"2027-05-01":1,"2027-05-03":1,"2027-05-05":1,"2027-05-13":1,"2027-06-06":1,"2027-07-17":1,"2027-07-19":1,"2027-08-15":1,"2027-08-16":1,"2027-09-14":1,"2027-09-15":1,"2027-09-16":1,"2027-10-03":1,"2027-10-04":1,"2027-10-09":1,"2027-10-11":1,"2027-12-25":1,"2027-12-27":1};
+  /* 토·일·대한민국 공휴일(대체·임시 포함, 위 목록은 매년 갱신 필요)이면 직전 영업일 종가 문구 반환 */
+  function offN(){var k=new Date(Date.now()+9*36e5),p=function(n){return n<10?"0"+n:""+n},key=k.getUTCFullYear()+"-"+p(k.getUTCMonth()+1)+"-"+p(k.getUTCDate()),w=k.getUTCDay();return(w===0||w===6||KR_HOL[key])?" · 직전 영업일 종가 기준":""}
   function renderTicker(price,label){
     var t=el('tkM');if(!t)return;
     var it='<span class="mi"><i></i>한 돈 3.75g <b class="num">'+f(price)+'원</b><small>'+label+'</small></span>',h='';
     for(var k=0;k<4;k++)h+=it;
     t.innerHTML='<div style="display:flex">'+h+'</div><div style="display:flex" aria-hidden="true">'+h+'</div>';
   }
-  renderTicker(769900,'판매가 2026.10.30 기준');
+  renderTicker(769900,'판매가 2026.10.30 기준'+offN());
   var BASE=P.map(function(p){var sp=p.supply||p.fin;return{mk:p.make/sp,pk:p.pack/sp}});
   function applyPrices(d){
     if(!d||!d.items||d.items.length!==P.length)return false;
@@ -757,8 +761,8 @@ body.hasf footer{padding-bottom:92px}
     });
     sel(cur);
     var dt=String(d.baseDate||'').replace(/-/g,'.');
-    if(dt){renderTicker(P[3].fin,'판매가 '+dt+' 기준');setT('fpD','한 돈 3.75g · 판매가 '+dt+' 기준');var fg=el('fpG');if(fg)fg.innerHTML=f(P[3].fin)+'<span>원</span>'}
-    if(dt)setT('lnSub','상품 가격은 '+dt+' 판매가(현금, VAT 포함) 기준입니다.');
+    if(dt){renderTicker(P[3].fin,'판매가 '+dt+' 기준'+offN());setT('fpD','한 돈 3.75g · 판매가 '+dt+' 기준'+offN());var fg=el('fpG');if(fg)fg.innerHTML=f(P[3].fin)+'<span>원</span>'}
+    if(dt)setT('lnSub','상품 가격은 '+dt+' 판매가(현금, VAT 포함) 기준입니다.'+(offN()?' (직전 영업일 종가 기준)':''));
     return true;
   }
   window.applyGoldPrices=applyPrices;

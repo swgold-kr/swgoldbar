@@ -138,6 +138,7 @@ footer{text-align:center;padding:28px 20px;font-size:13px;color:var(--ink-3);lin
     <section class="sec">
       <h2>상품 선택 및 수량</h2>
       <div class="asof"><span id="asofT">현금 결제가 · VAT 포함</span><b id="asofD" class="num">판매가 2026.10.28 기준</b></div>
+      <p id="asofN" style="font-size:13px;line-height:1.5;color:var(--ink-2);margin:0 0 14px">국내·국제 시세에 따라 급격한 변동성이 발생할 수 있습니다.</p>
       <div class="pl" id="productList">
       <div class="pi" data-i="0">
         <input type="checkbox" id="prod-spoon-0.5g" name="product" value="골드스푼 0.5g" aria-label="골드스푼 0.5g 선택">
@@ -244,9 +245,13 @@ const postI=document.getElementById("postAddress"),quickI=document.getElementByI
 const quantities={};cbs.forEach(c=>quantities[c.value]=0);
 const order=cbs.map(c=>c.value);
 
+  var KR_HOL={"2026-01-01":1,"2026-02-16":1,"2026-02-17":1,"2026-02-18":1,"2026-03-01":1,"2026-03-02":1,"2026-05-01":1,"2026-05-05":1,"2026-05-24":1,"2026-05-25":1,"2026-06-03":1,"2026-06-06":1,"2026-07-17":1,"2026-08-15":1,"2026-08-17":1,"2026-09-24":1,"2026-09-25":1,"2026-09-26":1,"2026-10-03":1,"2026-10-05":1,"2026-10-09":1,"2026-12-25":1,
+"2027-01-01":1,"2027-02-06":1,"2027-02-07":1,"2027-02-08":1,"2027-02-09":1,"2027-03-01":1,"2027-05-01":1,"2027-05-03":1,"2027-05-05":1,"2027-05-13":1,"2027-06-06":1,"2027-07-17":1,"2027-07-19":1,"2027-08-15":1,"2027-08-16":1,"2027-09-14":1,"2027-09-15":1,"2027-09-16":1,"2027-10-03":1,"2027-10-04":1,"2027-10-09":1,"2027-10-11":1,"2027-12-25":1,"2027-12-27":1};
+/* 토·일·대한민국 공휴일(대체·임시 포함, 위 목록은 매년 갱신 필요)이면 직전 영업일 종가 문구 반환 */
+function offN(){var k=new Date(Date.now()+9*36e5),p=function(n){return n<10?"0"+n:""+n},key=k.getUTCFullYear()+"-"+p(k.getUTCMonth()+1)+"-"+p(k.getUTCDate()),w=k.getUTCDay();return(w===0||w===6||KR_HOL[key])?" · 직전 영업일 종가 기준":""}
 function renderPrices(){
   document.querySelectorAll("[data-price]").forEach(e=>e.textContent=won(prices[+e.dataset.price]));
-  document.getElementById("asofD").textContent="판매가 "+baseDate+" 기준";
+  document.getElementById("asofD").textContent="판매가 "+baseDate+" 기준"+offN();
   updateSum();
 }
 function updateSum(){
