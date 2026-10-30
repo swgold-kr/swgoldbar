@@ -743,7 +743,7 @@ body.hasf footer{padding-bottom:92px}
     for(var k=0;k<4;k++)h+=it;
     t.innerHTML='<div style="display:flex">'+h+'</div><div style="display:flex" aria-hidden="true">'+h+'</div>';
   }
-  renderTicker(776200,'판매가 2026.10.28 기준');
+  renderTicker(769900,'판매가 2026.10.30 기준');
   var BASE=P.map(function(p){var sp=p.supply||p.fin;return{mk:p.make/sp,pk:p.pack/sp}});
   function applyPrices(d){
     if(!d||!d.items||d.items.length!==P.length)return false;
@@ -762,14 +762,28 @@ body.hasf footer{padding-bottom:92px}
     return true;
   }
   window.applyGoldPrices=applyPrices;
-  if(GOLD_API_URL){
-    try{var c=JSON.parse(localStorage.getItem(LS_KEY)||'null');if(c)applyPrices(c)}catch(e){}
-    var ctl=window.AbortController?new AbortController():null,tm=setTimeout(function(){ctl&&ctl.abort()},8000);
-    fetch(GOLD_API_URL,ctl?{signal:ctl.signal}:{}).then(function(r){return r.json()}).then(function(d){
-      clearTimeout(tm);
-      if(applyPrices(d)){try{localStorage.setItem(LS_KEY,JSON.stringify(d))}catch(e){}}
-    }).catch(function(){clearTimeout(tm)});
+  /* 시세 로드: 1순위 prices.json(GitHub Pages, 시트에서 검증 후 자동 커밋), 2순위 Apps Script 웹앱 */
+  var WGT=[0.5,1,1.875,3.75,5,10,100];
+  function sane(d){
+    if(!d||!d.items||d.items.length!==WGT.length)return false;
+    for(var i=0;i<WGT.length;i++){var c=d.items[i]&&d.items[i].cash;if(typeof c!=='number'||c<WGT[i]*100000)return false}
+    return true;
   }
+  function getJson(url,ms){
+    var ctl=window.AbortController?new AbortController():null,tm=setTimeout(function(){ctl&&ctl.abort()},ms);
+    return fetch(url,ctl?{signal:ctl.signal,cache:'no-store'}:{cache:'no-store'}).then(function(r){clearTimeout(tm);if(!r.ok)throw new Error(r.status);return r.json()}).catch(function(e){clearTimeout(tm);throw e});
+  }
+  try{var c=JSON.parse(localStorage.getItem(LS_KEY)||'null');if(sane(c))applyPrices(c)}catch(e){}
+  getJson('prices.json?ts='+Date.now(),8000).then(function(d){
+    d.baseDate=d.baseDate||d.asOf;
+    if(!sane(d)||!applyPrices(d))throw new Error('prices.json invalid');
+    try{localStorage.setItem(LS_KEY,JSON.stringify(d))}catch(e){}
+  }).catch(function(){
+    if(!GOLD_API_URL)return;
+    getJson(GOLD_API_URL,8000).then(function(d){
+      if(sane(d)&&applyPrices(d)){try{localStorage.setItem(LS_KEY,JSON.stringify(d))}catch(e){}}
+    }).catch(function(){});
+  });
 })();
 
 (function(){

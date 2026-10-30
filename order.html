@@ -232,9 +232,9 @@ footer{text-align:center;padding:28px 20px;font-size:13px;color:var(--ink-3);lin
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyTFd_vzXdJ_eRkgFdDVLIf1FYY82AczieMWRVYBEGgHP24M8KbjTMVpDSSbyA4hxA4Aw/exec";
 const GOLD_API_URL="https://script.google.com/macros/s/AKfycbyTFd_vzXdJ_eRkgFdDVLIf1FYY82AczieMWRVYBEGgHP24M8KbjTMVpDSSbyA4hxA4Aw/exec";
 const LS_KEY="swgold_latest_v1";
-/* 마지막 갱신일(2026-10-28) 현금가 · VAT 포함. API 실패 시 사용 */
-const prices=[137500,212700,392000,776200,1032300,2059900,20172100];
-let baseDate="2026.10.28";
+/* 마지막 갱신일(2026-10-30) 현금가 · VAT 포함. API 실패 시 사용 */
+const prices=[137500,211100,388900,769900,1023900,2043000,20006400];
+let baseDate="2026.10.30";
 const won=n=>n.toLocaleString("ko-KR")+"원";
 
 const form=document.getElementById("orderForm"),submitBtn=document.getElementById("submitBtn"),productError=document.getElementById("productError");
@@ -263,11 +263,21 @@ function applyApi(d){
   if(d.baseDate)baseDate=String(d.baseDate).replace(/-/g,".");
   renderPrices();return true;
 }
-try{const c=JSON.parse(localStorage.getItem(LS_KEY)||"null");if(c)applyApi(c)}catch(e){}
-(function(){
-  const ctl=window.AbortController?new AbortController():null,tm=setTimeout(()=>ctl&&ctl.abort(),8000);
-  fetch(GOLD_API_URL,ctl?{signal:ctl.signal}:{}).then(r=>r.json()).then(d=>{clearTimeout(tm);if(applyApi(d)){try{localStorage.setItem(LS_KEY,JSON.stringify(d))}catch(e){}}}).catch(()=>clearTimeout(tm));
-})();
+try{const c=JSON.parse(localStorage.getItem(LS_KEY)||"null");if(c&&c.items&&c.items.every((it,i)=>it.cash>=[0.5,1,1.875,3.75,5,10,100][i]*100000))applyApi(c)}catch(e){}
+/* 시세 로드: 1순위 prices.json(GitHub Pages, 시트에서 검증 후 자동 커밋), 2순위 Apps Script 웹앱 */
+const WGT=[0.5,1,1.875,3.75,5,10,100];
+const sane=d=>!!(d&&d.items&&d.items.length===WGT.length&&d.items.every((it,i)=>typeof it.cash==="number"&&it.cash>=WGT[i]*100000));
+function getJson(url,ms){
+  const ctl=window.AbortController?new AbortController():null,tm=setTimeout(()=>ctl&&ctl.abort(),ms);
+  return fetch(url,ctl?{signal:ctl.signal,cache:"no-store"}:{cache:"no-store"}).then(r=>{clearTimeout(tm);if(!r.ok)throw new Error(r.status);return r.json()}).catch(e=>{clearTimeout(tm);throw e});
+}
+getJson("prices.json?ts="+Date.now(),8000).then(d=>{
+  d.baseDate=d.baseDate||d.asOf;
+  if(!sane(d)||!applyApi(d))throw new Error("prices.json invalid");
+  try{localStorage.setItem(LS_KEY,JSON.stringify(d))}catch(e){}
+}).catch(()=>{
+  getJson(GOLD_API_URL,8000).then(d=>{if(sane(d)&&applyApi(d)){try{localStorage.setItem(LS_KEY,JSON.stringify(d))}catch(e){}}}).catch(()=>{});
+});
 renderPrices();
 
 document.querySelectorAll('input[name="purchaseType"]').forEach(r=>r.addEventListener("change",()=>{
